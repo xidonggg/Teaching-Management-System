@@ -1,0 +1,114 @@
+<div class="box box-primary" appMyStyle="查看学生权限">
+
+  <div class="box-header">
+    <div class="box-body pad table-responsive">
+      <p>这里是全部学生信息管理页面</p>
+<!--      <button type="button" class="btn btn-primary" (click)="uploadStudents()" >批量导入</button>&nbsp;-->
+<!--      <input type="file" class="btn" id="exampleInputFile" placeholder="批量导入/文件上传">-->
+      <button type="button" class="btn btn-primary" (click)="create()" appMyStyle="修改学生权限"><span class="glyphicon glyphicon-plus"></span>新增</button>
+        <div class="input-group input-group-sm pull-right" style="width: 200px; margin-top: 7px;">
+          <input type="text" name="table_search" class="form-control pull-right" placeholder="学生姓名">
+          <div class="input-group-btn">
+            <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+          </div>
+        </div>
+</div>
+  <section class="content">
+    <div class="row">
+      <div class="col-md-2">
+        <div class="box">
+          <button (click)="nzevent()">未分配</button>
+          <nz-tree [nzData]="nodes" nzShowIcon [nzExpandedIcon]="mutiExpandedIconTpl" (nzClick)="nzEvent($event)">
+            <ng-template #mutiExpandedIconTpl let-node>
+              <i
+                *ngIf="!node.origin.isLeaf"
+                nz-icon
+                [type]="node.isExpanded ? 'folder-open' : 'folder'"
+                class="ant-tree-switcher-line-icon"
+              ></i>
+              <i *ngIf="node.origin.isLeaf" nz-icon type="file" class="ant-tree-switcher-line-icon"></i>
+            </ng-template>
+          </nz-tree>
+       </div>
+      </div>
+      <div class="col-md-10">
+        <div class="box" appMyStyle="查看学生权限">
+          <div class="box-header with-border">
+            <h3 class="box-title">学生信息管理</h3>
+          </div>
+          <nz-table #filterTable [nzData]="students">
+            <thead nzSingleSort>
+            <tr>
+              <th style="width: 10px">#</th>
+              <th>姓名</th>
+              <th>性别</th>
+              <th>出生日期</th>
+              <th>email</th>
+              <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let student of filterTable.data; let i = index">
+              <td>{{i+1}}</td>
+              <td>{{student.name}}</td>
+              <td>{{student.sex}}</td>
+              <td>{{student.birthday}}</td>
+              <td>{{student.email}}</td>
+              <td appMyStyle="修改学生权限">
+                <a class="btn btn-warning btn-xs" (click)="upadte(student)"><span class="glyphicon glyphicon-pencil"></span>修改</a>&nbsp;
+                <a class="btn btn-danger btn-xs" (click)="delete(student)"><span class="glyphicon glyphicon-remove"></span>删除</a>
+              </td>
+              <td>
+                <nz-select style="width: 120px;" [(ngModel)]="selectedValue[i]" nzAllowClear nzPlaceHolder="Choose" [disabled]="student.classId!= '0000'"
+                appMyStyle="修改学生权限">
+                  <nz-option  *ngFor="let option of avalibaleClasses" [nzValue]="option.id" [nzLabel]="option.name"></nz-option>
+                </nz-select>
+                <button appMyStyle="修改学生权限"  [disabled]="student.classId!= '0000'" nz-button nzType="default" (click)="stuClassChange(student,i)">确认</button>
+              </td>
+            </tr>
+            </tbody>
+          </nz-table>
+          <!-- /.box-header -->
+<!--          <div class="box-body">-->
+<!--            <table class="table table-bordered table-hover">-->
+<!--              <tr>-->
+<!--                <th style="width: 10px">#</th>-->
+<!--                <th>姓名</th>-->
+<!--                <th>性别</th>-->
+<!--                <th>出生日期</th>-->
+<!--                <th>email</th>-->
+<!--              </tr>-->
+<!--              <tr *ngFor="let student of students; let i = index">-->
+<!--                <td>{{i+1}}</td>-->
+<!--                <td>{{student.name}}</td>-->
+<!--                <td>{{student.sex}}</td>-->
+<!--                <td>{{student.birthday}}</td>-->
+<!--                <td>{{student.email}}</td>-->
+<!--                <td appMyStyle="修改学生权限">-->
+<!--                  <a class="btn btn-warning btn-xs" (click)="upadte(student)"><span class="glyphicon glyphicon-pencil"></span>修改</a>&nbsp;-->
+<!--                  <a class="btn btn-danger btn-xs" (click)="delete(student)"><span class="glyphicon glyphicon-remove"></span>删除</a>-->
+<!--                </td>-->
+<!--                <td>-->
+<!--                  <nz-select style="width: 120px;" [(ngModel)]="selectedValue[i]" nzAllowClear nzPlaceHolder="Choose" [disabled]="student.classId!= '0000'">-->
+<!--                    <nz-option  *ngFor="let option of avalibaleClasses" [nzValue]="option.id" [nzLabel]="option.name"></nz-option>-->
+<!--                  </nz-select>-->
+<!--                  <button   [disabled]="student.classId!= '0000'" nz-button nzType="default" (click)="stuClassChange(student,i)">确认</button>-->
+<!--                </td>-->
+<!--                &lt;!&ndash;-->
+<!--                <td>-->
+<!--                  <div class="progress progress-xs progress-striped active">-->
+<!--                    <div class="progress-bar progress-bar-success" style="width: 90%"></div>-->
+<!--                  </div>-->
+<!--                </td>-->
+<!--                <td><span class="badge bg-green">90%</span></td>-->
+<!--               &ndash;&gt;-->
+<!--              </tr>-->
+<!--            </table>-->
+<!--          </div>-->
+          <!-- /.box-body -->
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+</div>

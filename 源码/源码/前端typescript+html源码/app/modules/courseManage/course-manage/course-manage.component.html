@@ -1,0 +1,171 @@
+<div class="col-md-12" appMyStyle="查看选课权限">
+  <div class="nav-tabs-custom">
+    <ul class="nav nav-tabs">
+      <li><a class="active" href="#activity" data-toggle="tab" appMyStyle="修改选课权限">选课</a></li>
+      <li><a href="#timeline" data-toggle="tab" appMyStyle="查看课程权限">课程管理</a></li>
+      <li><a href="#settings" data-toggle="tab" appMyStyle="查看选课权限">选课结果</a></li>
+    </ul>
+    <div class="tab-content">
+      <div class="active tab-pane" id="activity" appMyStyle="修改选课权限">
+        <div class="col-md-12">
+          <h3 class="box-title">选课管理</h3><br/>
+        </div>
+        <div class="form-horizontal">
+          <div class="form-group">
+<!--            班级选择，树形多选框-->
+            <label for="school" class="col-sm-2 control-label">班级选择</label>
+            <div class="col-sm-8">
+              <nz-tree-select
+                style="width: 250px"
+                nzPlaceHolder="Please select"
+                [nzMaxTagCount]="3"
+                [nzMaxTagPlaceholder]="omittedPlaceHolder"
+                [nzNodes]="nodes"
+                [nzDefaultExpandAll]="true"
+                [nzAllowClear]="false"
+                [(ngModel)]="value"
+                [nzMultiple]="false"
+                (ngModelChange)="onChange($event)"
+              >
+              </nz-tree-select>
+              <ng-template #omittedPlaceHolder let-omittedValues> and {{ omittedValues.length }} more... </ng-template>
+            </div>
+          </div>
+
+<!--          课程选择，简单多选框-->
+          <div class="form-group">
+            <label for="school" class="col-sm-2 control-label">课程选择</label>
+            <div class="col-sm-8">
+              <nz-select nzMode="tags" style="width: 100%;" nzPlaceHolder="Tag Mode" [(ngModel)]="listOfTagOptions" (ngModelChange)="coursechange($event)">
+                <nz-option *ngFor="let option of listOfOption" [nzLabel]="option.label" [nzValue]="option.value" [nzDisabled]="option.able"> </nz-option>
+              </nz-select>
+            </div>
+          </div>
+          <button (click)="courseSelectionConfirm()">确认</button>
+        </div>
+        <br/><br/><br/><br/>
+      </div>
+
+      <div class="tab-pane" id="timeline">
+        <div class="col-md-10">
+          <h3 class="box-title">课程信息管理</h3>
+        </div>
+
+        <nz-table #filterTable [nzData]="courses">
+          <thead nzSingleSort>
+          <tr>
+            <th style="width: 10px">#</th>
+            <th>编号</th>
+            <th>名称</th>
+            <th>教师</th>
+            <th>教室</th>
+            <th></th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let course1 of filterTable.data; let i = index">
+            <td>{{i + 1}}</td>
+            <td><a (click)="detail(course1)">{{course1.number}}</a></td>
+            <td>{{course1.name}}</td>
+            <td>{{course1.teachers}}</td>
+            <td>{{course1.classrooms}}</td>
+            <td appMyStyle="修改课程权限">
+              <a class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-pencil" (click)="update(course1)" disabled="false"></span>修改</a>&nbsp;
+              <a class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove" (click)="delete(course1)"></span>删除</a>
+            </td>
+          </tr>
+          </tbody>
+        </nz-table>
+
+        <!-- /.box-header -->
+<!--        <div class="box-body">-->
+<!--          <table class="table table-bordered table-hover">-->
+<!--            <tr>-->
+<!--              <th style="width: 10px">#</th>-->
+<!--              <th>编号</th>-->
+<!--              <th>名称</th>-->
+<!--              <th>教师</th>-->
+<!--              <th>教室</th>-->
+<!--            </tr>-->
+<!--            <tr *ngFor="let course of courses; let i = index">-->
+<!--              <td>{{i + 1}}</td>-->
+<!--              <td><a (click)="detail(course)">{{course.number}}</a></td>-->
+<!--              <td>{{course.name}}</td>-->
+<!--              <td>{{course.teachers}}</td>-->
+<!--              <td>{{course.classrooms}}</td>-->
+<!--              <td appMyStyle="修改课程权限">-->
+<!--                <a class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-pencil" (click)="update(course)" disabled="false"></span>修改</a>&nbsp;-->
+<!--                <a class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove" (click)="delete(course)"></span>删除</a>-->
+<!--              </td>-->
+<!--            </tr>-->
+<!--          </table>-->
+<!--        </div>-->
+        <!-- /.box-body -->
+        <button appMyStyle="修改课程权限" type="button" class="btn btn-primary" (click)="create()"><span class="glyphicon glyphicon-plus"></span>新增</button>
+        <br/><br/><br/><br/><br/>
+        <br/><br/><br/><br/><br/>
+        <br/><br/><br/><br/><br/>
+        <br/><br/><br/><br/><br/>
+      </div>
+
+      <div class="tab-pane" id="settings">
+        <div class="box-body">
+          <nz-table #filterTable2 [nzData]="courseClass">
+            <thead nzSingleSort>
+            <tr>
+              <th style="width: 10px">#</th>
+              <th>班级名称</th>
+              <th>开班年份</th>
+              <th>课程名称</th>
+              <th>课程编号</th>
+              <th>课程教师</th>
+              <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let cs of filterTable2.data; let i = index">
+              <td>{{i + 1}}</td>
+              <td>{{cs.myclass.name}}</td>
+              <td>{{cs.myclass.startyear}}</td>
+              <td><a (click)="detail(cs.course)">{{cs.course.name}}</a></td>
+              <td>{{cs.course.number}}</td>
+              <td>{{cs.course.teachers}}</td>
+              <td appMyStyle="修改选课权限">
+                <a class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove" (click)="deleteCourseClass(cs.id)"></span>删除</a>
+              </td>
+            </tr>
+            </tbody>
+          </nz-table>
+<!--          <table class="table table-bordered table-hover">-->
+<!--            <tr>-->
+<!--              <th style="width: 10px">#</th>-->
+<!--              <th>班级名称</th>-->
+<!--              <th>开班年份</th>-->
+<!--              <th>课程名称</th>-->
+<!--              <th>课程编号</th>-->
+<!--              <th>课程教师</th>-->
+<!--            </tr>-->
+<!--            <tr *ngFor="let cs of courseClass; let i = index">-->
+<!--              <td>{{i + 1}}</td>-->
+<!--              <td>{{cs.myclass.name}}</td>-->
+<!--              <td>{{cs.myclass.startyear}}</td>-->
+<!--              <td><a (click)="detail(cs.course)">{{cs.course.name}}</a></td>-->
+<!--              <td>{{cs.course.number}}</td>-->
+<!--              <td>{{cs.course.teachers}}</td>-->
+<!--              <td appMyStyle="修改选课权限">-->
+<!--                <a class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove" (click)="deleteCourseClass(cs.id)"></span>删除</a>-->
+<!--              </td>-->
+<!--            </tr>-->
+<!--          </table>-->
+        </div>
+        <!-- /.box-body -->
+        <br/><br/><br/><br/><br/>
+        <br/><br/><br/><br/><br/>
+        <br/><br/><br/><br/><br/>
+        <br/><br/><br/><br/><br/>
+      </div>
+    </div>
+  </div>
+</div>
+
+

@@ -1,0 +1,53 @@
+<form [formGroup]="formModel" class="form-horizontal">
+  <div class="box">
+    <div class="box-body">
+      <div class="form-group">
+        <label for="name" class="col-sm-2 control-label">名称</label>
+        <div class="col-sm-3">
+          <input formControlName="name" type="text" class="form-control" id="name" placeholder="name">
+        </div>
+      </div>
+<!--      <div class="form-group">-->
+<!--        <label for="school" class="col-sm-2 control-label">所属校区</label>-->
+<!--        <div class="col-sm-3">-->
+<!--          <input formControlName="school" type="text" class="form-control" id="school" placeholder="school">-->
+<!--        </div>-->
+<!--      </div>-->
+      <div class="form-group">
+        <label for="school" class="col-sm-2 control-label">所属校区</label>
+        <div class="col-sm-3">
+          <select class="form-control selectpicker show-tick" name="leader"
+                  data-first-option="false" required data-live-search="true" id="leader" (change)="getChange($event.target.value)">
+            <option value="-1">全部</option>
+            <option *ngFor="let le of orgs" value="{{le.name}}">{{le.name}}</option>
+          </select>
+        </div>
+      </div>
+<!--      -->
+<!--        <label>队长:</label>-->
+<!--        <select class="form-control selectpicker show-tick" name="leader"-->
+<!--                data-first-option="false" required data-live-search="true" id="leader" (change)="getChange($event.target.value)">-->
+<!--          <option value="-1">全部</option>-->
+<!--          <option *ngFor="let le of orgs" value="{{le.id}}">{{le.name}}</option>-->
+<!--        </select>-->
+<!--      </li>-->
+      <div class="form-group">
+        <label for="location" class="col-sm-2 control-label">详细地址</label>
+        <div class="col-sm-3">
+          <input formControlName="location" type="text" class="form-control" id="location" placeholder="location">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="population" class="col-sm-2 control-label">容纳人数</label>
+        <div class="col-sm-3">
+          <input formControlName="population" type="number" class="form-control" id="population" placeholder="population">
+        </div>
+      </div>
+    </div>
+    <div class="box-footer">
+      <button (click)="cancel()" type="submit" class="btn btn-default">取消</button>
+      <button (click)="save()"type="submit" class="btn btn-info pull-right">保存</button>
+    </div>
+  </div>
+</form>
+

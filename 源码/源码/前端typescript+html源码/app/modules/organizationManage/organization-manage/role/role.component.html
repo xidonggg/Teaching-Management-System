@@ -1,0 +1,81 @@
+
+<!--<form [formGroup] ="formModel" class="form-horizontal">-->
+
+<div class=" col-md-3">
+<div class="box">
+  <div class="box-body">
+    <button type="button" class="btn btn-primary" (click)="create()"><span class="glyphicon glyphicon-plus"></span>新增</button>
+    <table class="table table-bordered">
+      <tr>
+        <th>角色</th>
+      </tr>
+      <tr *ngFor="let role of roles; let i = index">
+        <td>{{i+1}}</td>
+        <td (click)="roleAuthority(role)">{{role.name}}
+          <button (click)="delete(role.id)" type="submit" class="btn btn-default pull-right btn-xs">删除</button>
+        </td>
+      </tr>
+      <tr>
+        <!--<input formControlName="name" type="text" class="form-control" id="name" placeholder="name" [hidden]="!isCreate">
+
+                <input type="text" placeholder="name" [hidden]="!isCreate">
+        <input type="button" name="cancel"  [hidden]="!isCreate" value="取消" (click)="cancel()">-->
+
+
+      </tr>
+    </table>
+  </div>
+</div>
+</div>
+<div class=" col-md-9">
+  <div class="box">
+    <div class="box-body">
+      <!--
+      <div class="form-group">
+        <label class="col-sm-2 control-label">权限名称</label>
+        <table class="table table-bordered" formArrayName="authorities">
+          <tr *ngFor="let authority of authorities;let i = index;">
+            <td>
+              <div class="checkbox">
+                <label>
+                  <input [formControlName]="i"  type="checkbox"> {{authority.name}}
+                </label>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>-->
+      <table class="table table-bordered" [hidden]="isCreate">
+        <tr>
+          <th>#</th>
+          <th>名称</th>
+          <th>所属部门</th>
+       </tr>
+        <tr *ngFor="let authority of authorities; let i = index">
+          <td>{{i+1}}</td>
+          <td>{{authority.name}}</td>
+          <td>{{authority.underMoudle}}</td>
+        </tr>
+      </table>
+      <!--<div formArrayName="authorities">
+        <table class="table table-bordered" [hidden]="!isCreate">
+          <tr>
+            <th>#</th>
+          </tr>
+          <tr *ngFor="let authority of Allauthorities;let i = index;">
+            <td>
+              <div class="checkbox">
+                <label>
+                  <input [formControlName]="i"  type="checkbox"> {{authority.name}}
+                </label>
+              </div>
+            </td>
+          </tr>
+
+        </table>
+      </div>-->
+    </div>
+    <app-newrole [hidden]="!isCreate"></app-newrole>
+  </div>
+</div>
+

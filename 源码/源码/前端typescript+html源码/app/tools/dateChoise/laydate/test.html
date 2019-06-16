@@ -1,0 +1,17 @@
+﻿<html>
+<head>
+</head>
+<body>
+<input type="text" placeholder="请选择日期" id="test1">
+
+<script src="../../../../assets/laydate.js"></script> <!-- 改成你的路径 -->
+<script>
+lay('#version').html('-v'+ laydate.v);
+
+//执行一个laydate实例
+laydate.render({
+  elem: '#test1' //指定元素
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+<app-header [hidden]="!islogin"></app-header>
+<app-menu [hidden]="!islogin"></app-menu>
+<app-content [hidden]="!islogin"></app-content>
+<!--<app-footer [hidden]="!islogin"></app-footer>-->
+<app-sidebar [hidden]="!islogin"></app-sidebar>
+
+<app-login [hidden]="islogin" (islogin)="loginResultHandler($event)"></app-login>
+<!--<app-header></app-header>-->
+<!--<app-menu></app-menu>-->
+<!--<app-content ></app-content>-->
+<!--<app-footer></app-footer>-->
+<!--<app-sidebar></app-sidebar>-->
+<!--<router-outlet></router-outlet>-->

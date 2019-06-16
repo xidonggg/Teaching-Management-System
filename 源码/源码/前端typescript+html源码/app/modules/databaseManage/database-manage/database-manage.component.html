@@ -1,0 +1,110 @@
+<div class="box box-primary" appMyStyle="查看文件权限">
+  <div class="box-header">
+  <div class="col-md-2">
+    <div class="box">
+      <nz-tree [nzData]="nodes" nzShowIcon [nzExpandedIcon]="mutiExpandedIconTpl" (nzClick)="nzEvent($event)">
+        <ng-template #mutiExpandedIconTpl let-node>
+          <i
+            *ngIf="!node.origin.isLeaf"
+            nz-icon
+            [type]="node.isExpanded ? 'folder-open' : 'folder'"
+            class="ant-tree-switcher-line-icon"
+          ></i>
+          <i *ngIf="node.origin.isLeaf" nz-icon type="file" class="ant-tree-switcher-line-icon"></i>
+        </ng-template>
+      </nz-tree>
+    </div>
+  </div>
+
+    <div class="col-md-2">
+      <div class="box">
+        <nz-radio-group nzSize="small" appMyStyle="修改文件权限">
+          <label nz-radio-button nzValue="add" (click)="addFoldder()">新增</label>
+<!--          <label nz-radio-button nzValue="upadte" (click)="update()">刷新</label>-->
+          <label nz-radio-button nzValue="delete" (click)="deleteFolder()">删除</label>
+        </nz-radio-group>
+        <nz-input-group nzSearch nzSize="large" [nzAddOnAfter]="suffixButton" nzSize="small" [hidden]="selectedAddFolder">
+          <input type="text" [(ngModel)]="foldername" nz-input placeholder="输入文件夹名称"/>
+        </nz-input-group>
+        <ng-template #suffixButton>
+          <button nz-button nzType="primary" nzSize="small" nzSearch (click)="addFolderConfirm()" >确认</button>
+        </ng-template>
+        <nz-tree [nzData]="folderTrees" nzShowIcon [nzExpandedIcon]="mutiExpandedIconTpl" (nzClick)="nzFolderEvent($event)">
+          <ng-template #mutiExpandedIconTpl let-node>
+            <i
+              *ngIf="!node.origin.isLeaf"
+              nz-icon
+              [type]="node.isExpanded ? 'folder-open' : 'folder'"
+              class="ant-tree-switcher-line-icon"
+            ></i>
+            <i *ngIf="node.origin.isLeaf" nz-icon type="file" class="ant-tree-switcher-line-icon"></i>
+          </ng-template>
+        </nz-tree>
+      </div>
+    </div>
+
+    <div class="col-md-8" appMyStyle="查看文件权限">
+      <div class="box">
+        <div class="box-header with-border">
+          <h3 class="box-title">文件信息管理</h3>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+          <nz-table #filterTable [nzData]="files">
+            <thead nzSingleSort>
+            <tr>
+              <th style="width: 10px">#</th>
+              <th>文件名</th>
+              <th>文件路径</th>
+              <th>创建者</th>
+              <th>创建时间</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let file of filterTable.data; let i = index">
+              <td>{{i+1}}</td>
+              <td><a (click)="download(file.filePath)" >{{file.fileName}}</a></td>
+              <td>{{file.relativePath}}</td>
+              <td>{{file.relationID}}</td>
+              <td>{{file.uploadTime}}</td>
+            </tr>
+            </tbody>
+          </nz-table>
+<!--          <table class="table table-bordered table-hover">-->
+<!--            <tr>-->
+<!--              <th style="width: 10px">#</th>-->
+<!--              <th>文件名</th>-->
+<!--              <th>文件路径</th>-->
+<!--              <th>创建者</th>-->
+<!--              <th>创建时间</th>-->
+<!--            </tr>-->
+<!--            <tr *ngFor="let file of files; let i = index">-->
+<!--              <td>{{i+1}}</td>-->
+<!--              <td><a (click)="download(file.filePath)" >{{file.fileName}}</a></td>-->
+<!--              <td>{{file.relativePath}}</td>-->
+<!--              <td>{{file.relationID}}</td>-->
+<!--              <td>{{file.uploadTime}}</td>-->
+<!--            </tr>-->
+<!--          </table>-->
+        </div>
+        <!-- /.box-body -->
+        <div appMyStyle="修改文件权限">
+        <nz-upload [(nzFileList)]="fileList" [nzBeforeUpload]="beforeUpload" [hidden]="!(this.selectedFolder != undefined && this.selectedFolder.length != 0)">
+          <button nz-button><i nz-icon nzType="upload"></i><span>上传文件</span></button>
+        </nz-upload>
+        <button
+          [hidden]="!(this.selectedFolder != undefined && this.selectedFolder.length != 0)"
+          nz-button
+          [nzType]="'primary'"
+          [nzLoading]="uploading"
+          (click)="handleUpload()"
+          [disabled]="fileList.length == 0"
+          style="margin-top: 16px"
+        >
+          {{ uploading ? '正在上传' : '确认开始上传' }}
+        </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

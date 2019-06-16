@@ -1,0 +1,292 @@
+
+<div class="col-md-12" >
+  <div class="nav-tabs-custom">
+    <ul class="nav nav-tabs">
+      <li><a href="#activity" data-toggle="tab" appMyStyle="查看缴费任务权限">收费任务</a></li>
+      <li><a href="#timeline" data-toggle="tab" appMyStyle="修改缴费任务权限">新建收费任务</a></li>
+      <li><a href="#settings" data-toggle="tab" appMyStyle="查看订单权限">订单</a></li>
+      <li><a href="#entryform" data-toggle="tab" appMyStyle="学生">缴费通知</a></li>
+    </ul>
+    <div class="tab-content">
+      <div class="active tab-pane" id="activity" appMyStyle="查看缴费任务权限">
+        <div class="col-md-10">
+          <h3 class="box-title">收费任务管理</h3>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+          <nz-table #filterTable [nzData]="taskss">
+            <thead nzSingleSort>
+            <tr>
+              <th style="width: 10px">#</th>
+              <th>任务名称</th>
+              <th>开始时间</th>
+              <th>结束时间</th>
+              <th>收费项名称</th>
+              <th>金额</th>
+              <th>备注</th>
+              <th>状态</th>
+              <th>进度</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let temp of filterTable.data; let i = index">
+              <td>{{i + 1}}</td>
+              <td><a (click)="taskdetail(temp.id)">{{temp.name}}</a></td>
+              <td>{{temp.createTime}}</td>
+              <td>{{temp.stopTime}}</td>
+              <td>{{temp.chargeName}}</td>
+              <td>{{temp.amount}}</td>
+              <td><button nz-button nz-popover [nzContent]="temp.remarks" nzPlacement="top">{{showremarks[i]}}</button></td>
+              <td appMyStyle="修改缴费任务权限"> <nz-select style="width: 120px;" [(ngModel)]="selectedState[i]" nzAllowClear nzPlaceHolder="Choose" (ngModelChange)="statechange(temp,selectedState[i])"
+                                                    [nzDisabled]="'过期'==selectedState[i]">
+                <nz-option nzValue="未发布" nzLabel="未发布" [nzDisabled]="temp.state == '发布' || temp.state == '停止'"></nz-option>
+                <nz-option nzValue="发布" nzLabel="发布"[nzDisabled]="temp.state == '停止'"></nz-option>
+                <nz-option nzValue="停止" nzLabel="停止" [nzDisabled]="temp.state == '未发布'"></nz-option>
+              </nz-select></td>
+              <td><nz-progress [nzPercent]="temp.paidNumber*100/(temp.unpaidNumber+temp.paidNumber)"></nz-progress></td>
+            </tr>
+            </tbody>
+          </nz-table>
+<!--          <table class="table table-bordered table-hover">-->
+<!--            <tr>-->
+<!--              <th style="width: 10px">#</th>-->
+<!--              <th>任务名称</th>-->
+<!--              <th>开始时间</th>-->
+<!--              <th>结束时间</th>-->
+<!--              <th>收费项名称</th>-->
+<!--              <th>金额</th>-->
+<!--              <th>备注</th>-->
+<!--              <th>状态</th>-->
+<!--              <th>进度</th>-->
+<!--            </tr>-->
+<!--            <tr *ngFor="let temp of taskss; let i = index">-->
+<!--              <td>{{i + 1}}</td>-->
+<!--              <td><a (click)="taskdetail(temp.id)">{{temp.name}}</a></td>-->
+<!--              <td>{{temp.createTime}}</td>-->
+<!--              <td>{{temp.stopTime}}</td>-->
+<!--              <td>{{temp.chargeName}}</td>-->
+<!--              <td>{{temp.amount}}</td>-->
+<!--              <td><button nz-button nz-popover [nzContent]="temp.remarks" nzPlacement="top">{{showremarks[i]}}</button></td>-->
+<!--              <td appMyStyle="修改缴费任务权限"> <nz-select style="width: 120px;" [(ngModel)]="selectedState[i]" nzAllowClear nzPlaceHolder="Choose" (ngModelChange)="statechange(temp,selectedState[i])"-->
+<!--                              [nzDisabled]="'过期'==selectedState[i]">-->
+<!--                <nz-option nzValue="未发布" nzLabel="未发布" [nzDisabled]="temp.state == '发布' || temp.state == '停止'"></nz-option>-->
+<!--                <nz-option nzValue="发布" nzLabel="发布"[nzDisabled]="temp.state == '停止'"></nz-option>-->
+<!--                <nz-option nzValue="停止" nzLabel="停止" [nzDisabled]="temp.state == '未发布'"></nz-option>-->
+<!--              </nz-select></td>-->
+<!--              <td><nz-progress [nzPercent]="temp.paidNumber*100/(temp.unpaidNumber+temp.paidNumber)"></nz-progress></td>-->
+<!--            </tr>-->
+<!--          </table>-->
+        </div>
+        <!-- /.box-body -->
+        <br/><br/><br/><br/><br/>
+        <br/><br/><br/><br/><br/>
+        <br/><br/><br/><br/><br/>
+        <br/><br/><br/><br/><br/>
+      </div>
+
+      <div class="tab-pane" id="timeline">
+        <div class="col-md-12">
+          <h3 class="box-title">新建收费任务</h3><br/>
+        </div>
+        <div class="form-horizontal">
+          <form [formGroup]="formModel" class="form-horizontal">
+            <div class="form-group"
+                 [class.has-error]="formModel.get('name').touched && (formModel.hasError('minlength','name') || formModel.hasError('required','name'))">
+              <label for="name" class="col-sm-2 control-label ">名称</label>
+              <div class="col-sm-8">
+                <input formControlName="name" type="text" class="form-control" id="name" placeholder="name">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="chargeName" class="col-sm-2 control-label">收费项目名称</label>
+              <div class="col-sm-8">
+                <input formControlName="chargeName" type="text" class="form-control" id="chargeName" placeholder="联系人">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="amount" class="col-sm-2 control-label">金额</label>
+              <div class="col-sm-8">
+                <input formControlName="amount" type="number" class="form-control" id="amount" placeholder="联系人电话">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="remarks" class="col-sm-2 control-label">备注</label>
+              <div class="col-sm-8">
+                <textarea formControlName="remarks" class="form-control" rows="5" id="remarks"></textarea>
+              </div>
+            </div>
+          </form>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">截止时间</label>
+            <div class="col-sm-8">
+              <nz-date-picker
+                nzShowTime
+                nzFormat="yyyy-MM-dd HH:mm:ss"
+                nzPlaceHolder="Select Time"
+                (ngModelChange)="ondataChange($event)"
+                (nzOnOk)="ondataOk($event)"
+              ></nz-date-picker>
+            </div>
+          </div>
+          <div class="form-group">
+            <!--            班级选择，树形多选框-->
+            <label for="school" class="col-sm-2 control-label">班级选择</label>
+            <div class="col-sm-8">
+              <nz-tree-select
+                style="width: 250px"
+                nzPlaceHolder="Please select"
+                [nzMaxTagCount]="3"
+                [nzMaxTagPlaceholder]="omittedPlaceHolder"
+                [nzNodes]="nodes"
+                [nzDefaultExpandAll]="true"
+                [nzAllowClear]="false"
+                [(ngModel)]="value"
+                [nzMultiple]="false"
+                (ngModelChange)="onChange($event)"
+                [nzDisabled]="stuisselected"
+              >
+              </nz-tree-select>
+              <ng-template #omittedPlaceHolder let-omittedValues> and {{ omittedValues.length }} more... </ng-template>
+            </div>
+          </div>
+<!--          穿梭框-->
+          <div class="form-group">
+            <label for="school" class="col-sm-2 control-label">学生选择</label>
+            <div class="col-sm-8">
+             <nz-transfer
+            [nzDataSource]="stulist"
+            nzShowSearch
+            [nzOperations]="['to right', 'to left']"
+            [nzListStyle]="{ 'width.px': 250, 'height.px': 300 }"
+            [nzRender]="render"
+            [nzFooter]="footer"
+            (nzSelectChange)="stuselect($event)"
+            (nzChange)="stuchange($event)"
+            [nzDisabled]="stuisselected"
+          >
+            <ng-template #render let-item> {{ item.title }}-{{ item.description }} </ng-template>
+            <ng-template #footer let-direction>
+<!--              <button nz-button (click)="stureload(direction)" [nzSize]="'small'" style="float: right; margin: 5px;">-->
+<!--                reload-->
+<!--              </button>-->
+            </ng-template>
+          </nz-transfer>
+              <button nz-button (click)="confirm()" [nzSize]="'small'" style="float: right; margin: 5px;">确定</button>
+              <button nz-button (click)="rechoise()" [nzSize]="'small'" style="float: right; margin: 5px;">重新选择</button>
+            </div>
+          </div>
+        </div>
+          <div class="box-footer">
+            <button (click)="cancel()" type="submit" class="btn btn-default">取消</button>
+            <button (click)="save()" [disabled]="formModel.invalid" type="submit" class="btn btn-info pull-right">保存</button>
+          </div>
+        </div>
+
+
+      <div class="tab-pane" id="settings">
+        <div class="box">
+            <div class="box-body">
+              <nz-table #filterTable2 [nzData]="orders">
+                <thead nzSingleSort>
+                <tr>
+                  <th style="width: 10px">#</th>
+                  <th>姓名</th>
+                  <th>联系方式</th>
+                  <th>状态</th>
+                  <th>状态改变时间</th>
+                  <th>关联任务</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let order of filterTable2.data; let i = index">
+                  <td>{{i + 1}}</td>
+                  <td>{{order.accountName}}-{{order.accountPinyin}}</td>
+                  <td>{{order.accountPhone}}</td>
+                  <td>{{order.state}}</td>
+                  <td>{{order.stateChangeTime}}</td>
+                  <td><a (click)="taskdetail(order.taskId)">{{order.taskName}}</a></td>
+                </tr>
+                </tbody>
+              </nz-table>
+<!--              <table class="table table-bordered table-hover">-->
+<!--                <tr>-->
+<!--                  <th style="width: 10px">#</th>-->
+<!--                  <th>姓名</th>-->
+<!--                  <th>联系方式</th>-->
+<!--                  <th>状态</th>-->
+<!--                  <th>状态改变时间</th>-->
+<!--                  <th>关联任务</th>-->
+<!--                </tr>-->
+<!--                <tr *ngFor="let order of orders; let i = index">-->
+<!--                  <td>{{i + 1}}</td>-->
+<!--                  <td>{{order.accountName}}-{{order.accountPinyin}}</td>-->
+<!--                  <td>{{order.accountPhone}}</td>-->
+<!--                  <td>{{order.state}}</td>-->
+<!--                  <td>{{order.stateChangeTime}}</td>-->
+<!--                  <td><a (click)="taskdetail(order.taskId)">{{order.taskName}}</a></td>-->
+<!--                </tr>-->
+<!--              </table>-->
+            </div>
+        </div>
+
+      </div>
+
+      <div class="tab-pane" id="entryform">
+        <div class="box">
+          <div class="box-body">
+            <nz-table #filterTable3 [nzData]="myorders">
+              <thead nzSingleSort>
+              <tr>
+                <th style="width: 10px">#</th>
+                <th>姓名</th>
+                <th>联系方式</th>
+                <th>状态</th>
+                <th>状态改变时间</th>
+                <th>缴费项名称</th>
+                <th>金额</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let order of filterTable3.data; let i = index">
+                <td>{{i + 1}}</td>
+                <td>{{order.accountName}}-{{order.accountPinyin}}</td>
+                <td>{{order.accountPhone}}</td>
+                <td>{{order.state}}</td>
+                <td>{{order.stateChangeTime}}</td>
+                <td>{{order.chargeName}}</td>
+                <td>{{order.amount}}</td>
+                <td><button nz-button (click)="pay(order)" [nzSize]="'small'" style="float: right; margin: 5px;" [disabled]="order.state == '已缴'|| order.state == '失效'">缴费</button></td>
+              </tr>
+              </tbody>
+            </nz-table>
+<!--            <table class="table table-bordered table-hover">-->
+<!--              <tr>-->
+<!--                <th style="width: 10px">#</th>-->
+<!--                <th>姓名</th>-->
+<!--                <th>联系方式</th>-->
+<!--                <th>状态</th>-->
+<!--                <th>状态改变时间</th>-->
+<!--                <th>缴费项名称</th>-->
+<!--                <th>金额</th>-->
+<!--              </tr>-->
+<!--              <tr *ngFor="let order of myorders; let i = index">-->
+<!--                <td>{{i + 1}}</td>-->
+<!--                <td>{{order.accountName}}-{{order.accountPinyin}}</td>-->
+<!--                <td>{{order.accountPhone}}</td>-->
+<!--                <td>{{order.state}}</td>-->
+<!--                <td>{{order.stateChangeTime}}</td>-->
+<!--                <td>{{order.chargeName}}</td>-->
+<!--                <td>{{order.amount}}</td>-->
+<!--                <td><button nz-button (click)="pay(order)" [nzSize]="'small'" style="float: right; margin: 5px;" [disabled]="order.state == '已缴'|| order.state == '失效'">缴费</button></td>-->
+<!--              </tr>-->
+<!--            </table>-->
+          </div>
+        </div>
+      </div>
+<!--        <input type="button" value="查看表单" onclick="window.open('http://localhost:4200/entryForm','_blank')">-->
+<!--        &lt;!&ndash;        <button (click)="window.open('webform1.aspx','_blank')" class="btn btn-info">查看表单</button>&ndash;&gt;-->
+      </div>
+    </div>
+  </div>
+
+

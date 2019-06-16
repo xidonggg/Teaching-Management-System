@@ -1,0 +1,61 @@
+<div class="box-header">
+  <div class="box">
+  <div class="box-body">
+    <table class="table">
+      <tr>
+        <td><b>课程编号：</b>{{course.number}}</td>
+        <td><b>指导教师：</b>{{course.teachers}}</td>
+        <td><b>教室：</b>{{course.classrooms}}</td>
+      </tr><tr>
+      <td><b>创建人：</b>{{course.establishPerson}}</td>
+      <td><b>创建时间：</b>{{course.establishTime}}</td>
+    </tr><tr>
+      <td><b>描述：</b>{{course.describe}}</td>
+    </tr>
+      <tr>
+        <td><b>总课程数：</b>{{course.teachTimes}}</td>
+      </tr>
+    </table>
+  </div>
+  <div class="box-body">
+    <table class="table">
+      <tr>
+        <td><b>班级名称：</b>{{myclass.name}}</td>
+        <td><b>指导教师：</b>{{myclass.directors}}</td>
+        <td><b>校区：</b>{{myclass.school}}</td>
+      </tr><tr>
+      <td><b>开班年份：</b>{{myclass.startyear}}</td>
+      <td><b>上课地址：</b>{{myclass.teachplace}}</td>
+    </tr><tr>
+      <td><b>总教课时间：</b>{{myclass.totalTime}}个月</td>
+    </tr>
+    </table>
+  </div>
+  </div>
+</div>
+<div class="box">
+  <nz-table #filterTable [nzData]="students">
+    <thead nzSingleSort>
+    <tr>
+      <th style="width: 10px">#</th>
+      <th>姓名</th>
+      <th>性别</th>
+      <th>出生日期</th>
+      <th>email</th>
+      <th>成绩</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let student of filterTable.data; let i = index">
+      <td>{{i+1}}</td>
+      <td>{{student.name}}</td>
+      <td>{{student.sex}}</td>
+      <td>{{student.birthday}}</td>
+      <td>{{student.email}}</td>
+      <td><input type="number" placeholder="0" [disabled]="isSaved"></td>
+    </tr>
+    </tbody>
+  </nz-table>
+  <button (click)="cancel()" type="submit" class="btn btn-default">返回</button>
+  <button (click)="save()"  type="submit" class="btn btn-info pull-right">保存</button>
+</div>

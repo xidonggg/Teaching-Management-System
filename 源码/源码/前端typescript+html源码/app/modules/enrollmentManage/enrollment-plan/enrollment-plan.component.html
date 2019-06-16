@@ -1,0 +1,261 @@
+<div class="col-md-12" appMyStyle="查看招生计划权限">
+  <div class="nav-tabs-custom">
+    <ul class="nav nav-tabs">
+      <li><a href="#activity" data-toggle="tab" appMyStyle="查看招生计划权限">招生计划</a></li>
+      <li><a href="#timeline" data-toggle="tab" appMyStyle="修改招生计划权限">新建招生计划</a></li>
+      <li><a href="#settings" data-toggle="tab" appMyStyle="查看线索权限">线索</a></li>
+      <li><a href="#entryform" data-toggle="tab">表单</a></li>
+    </ul>
+    <div class="tab-content">
+      <div class="active tab-pane" id="activity" >
+        <div class="col-md-10">
+          <h3 class="box-title">招生计划管理</h3>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+          <nz-table #filterTable [nzData]="plans">
+            <thead nzSingleSort>
+            <tr>
+              <th style="width: 10px">#</th>
+              <th>计划名称</th>
+              <th>开始时间</th>
+              <th>结束时间</th>
+              <th>已报名人数</th>
+              <th>计划报名人数</th>
+              <th>状态</th>
+              <th>创建人</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let plan of filterTable.data; let i = index">
+              <td>{{i + 1}}</td>
+              <td><a (click)="plandetail(plan)">{{plan.name}}</a></td>
+              <td>{{plan.startTime}}</td>
+              <td>{{plan.endTime}}</td>
+              <td>{{plan.enrolmentNumber}}</td>
+              <td>{{plan.planNumber}}</td>
+              <td appMyStyle="修改招生计划权限"> <nz-select style="width: 120px;" [(ngModel)]="selectedState[i]" nzAllowClear nzPlaceHolder="Choose" (ngModelChange)="statechange(plan,selectedState[i])"
+                                                    [nzDisabled]="'过期'==selectedState[i]"  >
+                <nz-option nzValue="未发布" nzLabel="未发布"></nz-option>
+                <nz-option nzValue="发布" nzLabel="发布"></nz-option>
+                <nz-option nzValue="过期" nzLabel="过期" [nzDisabled]="true"></nz-option>
+              </nz-select>
+              </td>
+              <td appMyStyle="!修改招生计划权限">{{plan.state}}</td>
+              <td>{{plan.establishPerson}}</td>
+            </tr>
+            </tbody>
+          </nz-table>
+<!--          <table class="table table-bordered table-hover">-->
+<!--            <tr>-->
+<!--              <th style="width: 10px">#</th>-->
+<!--              <th>计划名称</th>-->
+<!--              <th>开始时间</th>-->
+<!--              <th>结束时间</th>-->
+<!--              <th>已报名人数</th>-->
+<!--              <th>计划报名人数</th>-->
+<!--              <th>状态</th>-->
+<!--              <th>创建人</th>-->
+<!--            </tr>-->
+<!--            <tr *ngFor="let plan of plans; let i = index">-->
+<!--              <td>{{i + 1}}</td>-->
+<!--              <td><a (click)="plandetail(plan)">{{plan.name}}</a></td>-->
+<!--              <td>{{plan.startTime}}</td>-->
+<!--              <td>{{plan.endTime}}</td>-->
+<!--              <td>{{plan.enrolmentNumber}}</td>-->
+<!--              <td>{{plan.planNumber}}</td>-->
+<!--              <td appMyStyle="修改招生计划权限"> <nz-select style="width: 120px;" [(ngModel)]="selectedState[i]" nzAllowClear nzPlaceHolder="Choose" (ngModelChange)="statechange(plan,selectedState[i])"-->
+<!--              [nzDisabled]="'过期'==selectedState[i]"  >-->
+<!--                <nz-option nzValue="未发布" nzLabel="未发布"></nz-option>-->
+<!--                <nz-option nzValue="发布" nzLabel="发布"></nz-option>-->
+<!--                <nz-option nzValue="过期" nzLabel="过期" [nzDisabled]="true"></nz-option>-->
+<!--              </nz-select>-->
+<!--              </td>-->
+<!--              <td appMyStyle="!修改招生计划权限">{{plan.state}}</td>-->
+<!--              <td>{{plan.establishPerson}}</td>-->
+<!--&lt;!&ndash;              <td>&ndash;&gt;-->
+<!--&lt;!&ndash;                <a class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-pencil"  disabled="false"></span>修改</a>&nbsp;&ndash;&gt;-->
+<!--&lt;!&ndash;                <a class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove" ></span>删除</a>&ndash;&gt;-->
+<!--&lt;!&ndash;              </td>&ndash;&gt;-->
+<!--            </tr>-->
+<!--          </table>-->
+        </div>
+        <br/><br/><br/><br/><br/>
+        <br/><br/><br/><br/><br/>
+        <br/><br/><br/><br/><br/>
+        <br/><br/><br/><br/><br/>
+      </div>
+
+      <div class="tab-pane" id="timeline" (show)="true">
+        <div class="col-md-12">
+          <h3 class="box-title">新建招生计划</h3><br/>
+        </div>
+        <div class="form-horizontal">
+          <form [formGroup]="formModel" class="form-horizontal">
+            <div class="form-group"
+                 [class.has-error]="formModel.get('name').touched && (formModel.hasError('minlength','name') || formModel.hasError('required','name'))">
+              <label for="name" class="col-sm-2 control-label ">名称</label>
+              <div class="col-sm-8">
+                <input formControlName="name" type="text" class="form-control" id="name" placeholder="name">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="communicateStaffname" class="col-sm-2 control-label">联系人</label>
+              <div class="col-sm-8">
+                <input formControlName="communicateStaffname" type="text" class="form-control" id="communicateStaffname" placeholder="联系人">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="communicateStaffPhone" class="col-sm-2 control-label">联系人电话</label>
+              <div class="col-sm-8">
+                <input formControlName="communicateStaffPhone" type="number" class="form-control" id="communicateStaffPhone" placeholder="联系人电话">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="planNumber" class="col-sm-2 control-label">计划人数</label>
+              <div class="col-sm-8">
+                <input formControlName="planNumber" type="number" class="form-control" id="planNumber" placeholder="计划人数">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">其他描述信息</label>
+              <div class="col-sm-10">
+                <textarea formControlName="describe" class="form-control" rows="5"></textarea>
+              </div>
+            </div>
+          </form>
+
+          <div class="form-group">
+            <!--            班级选择，树形多选框-->
+            <label class="col-sm-2 control-label">班级选择</label>
+            <div class="col-sm-8">
+              <nz-tree-select
+                style="width: 250px"
+                nzPlaceHolder="Please select"
+                [nzMaxTagCount]="3"
+                [nzMaxTagPlaceholder]="omittedPlaceHolder"
+                [nzNodes]="nodes"
+                [nzDefaultExpandAll]="true"
+                [nzAllowClear]="false"
+                [(ngModel)]="value"
+                [nzMultiple]="true"
+                (ngModelChange)="onChange($event)"
+              >
+              </nz-tree-select>
+              <ng-template #omittedPlaceHolder let-omittedValues> and {{ omittedValues.length }} more... </ng-template>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label">课程选择</label>
+            <div class="col-sm-8">
+              <nz-select nzMode="tags" style="width: 100%;" nzPlaceHolder="Tag Mode" [(ngModel)]="listOfTagOptions" (ngModelChange)="coursechange($event)">
+                <nz-option *ngFor="let option of listOfOption" [nzLabel]="option.label" [nzValue]="option.value" [nzDisabled]="option.able"> </nz-option>
+              </nz-select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">计划开始日期</label>
+            <div class="col-sm-8">
+              <nz-date-picker
+                nzShowTime
+                nzFormat="yyyy-MM-dd HH:mm:ss"
+                nzPlaceHolder="Select Time"
+                (ngModelChange)="onstartTimeChange($event)"
+                (nzOnOk)="onstartTimeOk($event)"
+              ></nz-date-picker>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">计划结束日期</label>
+            <div class="col-sm-8">
+              <nz-date-picker
+                nzShowTime
+                nzFormat="yyyy-MM-dd HH:mm:ss"
+                nzPlaceHolder="Select Time"
+                (ngModelChange)="onendTimeChange($event)"
+                (nzOnOk)="onendTimeOk($event)"
+              ></nz-date-picker>
+            </div>
+          </div>
+
+          <div class="box-footer">
+            <button (click)="cancel()" type="submit" class="btn btn-default">取消</button>
+            <button (click)="save()" [disabled]="formModel.invalid" type="submit" class="btn btn-info pull-right">保存</button>
+          </div>
+        </div>
+        <br/><br/><br/><br/>
+
+      </div>
+
+      <div class="tab-pane" id="settings">
+        <div class="col-md-10">
+          <h3 class="box-title">招生计划管理</h3>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+          <nz-table #filterTable2 [nzData]="clues">
+            <thead nzSingleSort>
+            <tr>
+              <th style="width: 10px">#</th>
+              <th>姓名</th>
+              <th>手机号</th>
+              <th>来源</th>
+              <th>状态</th>
+              <th>招生计划</th>
+              <th>报名时间</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let clue of filterTable2.data; let i = index">
+              <td>{{i + 1}}</td>
+              <td><a (click)="cluedetail(clue)">{{clue.name}}</a></td>
+              <td>{{clue.phone}}</td>
+              <td>{{clue.source}}</td>
+              <td>{{clue.state}}</td>
+              <td>{{clue.planName}}</td>
+              <td>{{clue.registrationTime}}</td>
+            </tr>
+            </tbody>
+          </nz-table>
+<!--          <table class="table table-bordered table-hover">-->
+<!--            <tr>-->
+<!--              <th style="width: 10px">#</th>-->
+<!--              <th>姓名</th>-->
+<!--              <th>手机号</th>-->
+<!--              <th>来源</th>-->
+<!--              <th>状态</th>-->
+<!--              <th>招生计划</th>-->
+<!--              <th>报名时间</th>-->
+<!--            </tr>-->
+<!--            <tr *ngFor="let clue of clues; let i = index">-->
+<!--              <td>{{i + 1}}</td>-->
+<!--              <td><a (click)="cluedetail(clue)">{{clue.name}}</a></td>-->
+<!--              <td>{{clue.phone}}</td>-->
+<!--              <td>{{clue.source}}</td>-->
+<!--              <td>{{clue.state}}</td>-->
+<!--              <td>{{clue.planName}}</td>-->
+<!--              <td>{{clue.registrationTime}}</td>-->
+<!--              &lt;!&ndash;              <td>&ndash;&gt;-->
+<!--              &lt;!&ndash;                <a class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-pencil"  disabled="false"></span>修改</a>&nbsp;&ndash;&gt;-->
+<!--              &lt;!&ndash;                <a class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove" ></span>删除</a>&ndash;&gt;-->
+<!--              &lt;!&ndash;              </td>&ndash;&gt;-->
+<!--            </tr>-->
+<!--          </table>-->
+        </div>
+        <!-- /.box-body -->
+        <br/><br/><br/><br/><br/>
+        <br/><br/><br/><br/><br/>
+        <br/><br/><br/><br/><br/>
+        <br/><br/><br/><br/><br/>
+      </div>
+
+      <div class="tab-pane" id="entryform">
+        <input type="button" value="查看表单" onclick="window.open('http://localhost:4200/entryForm','_blank')">
+<!--        <button (click)="window.open('webform1.aspx','_blank')" class="btn btn-info">查看表单</button>-->
+      </div>
+    </div>
+  </div>
+</div>
+
+

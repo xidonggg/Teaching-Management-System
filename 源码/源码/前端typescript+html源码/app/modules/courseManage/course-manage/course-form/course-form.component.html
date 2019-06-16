@@ -1,0 +1,127 @@
+<!-- Horizontal Form -->
+<div class="box box-info" appMyStyle="修改课程权限">
+  <div class="box-header with-border">
+    <h3 class="box-title">课程信息</h3>
+  </div>
+  <!-- /.box-header -->
+  <!-- form start -->
+
+  <div class="box-body">
+    <form [formGroup]="formModel" class="form-horizontal">
+      <div class="form-group"
+           [class.has-error]="formModel.get('name').touched && (formModel.hasError('minlength','name') || formModel.hasError('required','name'))">
+        <label for="name" class="col-sm-2 control-label ">名称</label>
+
+        <div class="col-sm-8">
+          <input formControlName="name" type="text" class="form-control" id="inputEmail3" placeholder="name">
+        </div>
+        <span class="help-block"
+              [class.hidden]="!formModel.hasError('required','name') || formModel.get('name').untouched">
+          班级名称必填项
+        </span>
+        <span class="help-block"
+              [class.hidden]="!formModel.hasError('minlength','name') || formModel.get('name').untouched">
+          请输入至少一个字符
+        </span>
+      </div>
+      <div class="form-group">
+        <label for="totalTime" class="col-sm-2 control-label">编号</label>
+        <div class="col-sm-8">
+          <input formControlName="number" type="text" class="form-control" id="totalTime" placeholder="totalTime">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">描述</label>
+        <div class="col-sm-10">
+          <textarea formControlName="describe" class="form-control" rows="5">{{course.describe}}</textarea>
+        </div>
+      </div>
+    </form>
+
+    <div class="form-horizontal">
+      <div class="form-group">
+        <label for="school" class="col-sm-2 control-label">教师</label>
+        <div class="col-sm-8 nobr">
+          <nz-select nzMode="tags" style="width: 100%;" nzPlaceHolder="Tag Mode" [(ngModel)]="teacherslistOfTagOptions" [disabled]="isconfirm">
+            <nz-option *ngFor="let option of teacherslistOfOption" [nzLabel]="option.label"
+                       [nzValue]="option.value"></nz-option>
+          </nz-select>
+          <button (click)="teacherconfirm()">确认</button>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="school" class="col-sm-2 control-label">常用地址</label>
+        <div class="col-sm-8">
+          <nz-select nzMode="tags" style="width: 100%;" nzPlaceHolder="Tag Mode" [(ngModel)]="classrlistOfTagOptions">
+            <nz-option *ngFor="let option of classrlistOfOption" [nzLabel]="option.label"
+                       [nzValue]="option.value"></nz-option>
+          </nz-select>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-horizontal">
+      <div *ngFor="let i of arrange">
+        <div class="form-group" style="border-top:1px solid #DCDCDC">
+          <br/>
+          <div class="form-group">
+          <label for="school" class="col-sm-2 control-label">日期{{i.id}}</label>
+          <div class="col-sm-2">
+            <nz-date-picker [(ngModel)]="i.date" (ngModelChange)="ondateChange($event,i)"></nz-date-picker>
+          </div>
+          <label for="school" class="col-sm-2 control-label">地点{{i.id}}</label>
+          <div class="col-sm-2">
+            <input class="form-control" [(ngModel)]="i.address" value="{{i.address}}">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="school" class="col-sm-2 control-label">时间段{{i.id}}</label>
+          <div class="col-sm-2">
+            <nz-select style="width: 200px;" [(ngModel)]="i.selectedTime" nzAllowClear nzPlaceHolder="Choose">
+              <nz-option *ngFor="let option of scheduleOption"[nzLabel]="option"
+              [nzValue]="option"></nz-option>
+            </nz-select>
+          </div>
+
+          <label for="school" class="col-sm-2 control-label">该节课教师</label>
+          <div class="col-sm-3">
+            <nz-select nzMode="tags" style="width: 100%;" nzPlaceHolder="Tag Mode" [(ngModel)]="i.teachers">
+              <nz-option *ngFor="let option of teacherslistOfOption2" [nzLabel]="option.label"
+                         [nzValue]="option.value"></nz-option>
+            </nz-select>
+          </div>
+
+          <button class="btn btn-link" (click)="newremoveInput(i)">删除</button>
+      </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label"> <button (click)="newaddInput()">增加</button></label>
+      </div>
+
+    </div>
+
+    <div class="box-footer">
+      <button (click)="cancel()" type="submit" class="btn btn-default">取消</button>
+      <button (click)="save()" [disabled]="formModel.invalid" type="submit" class="btn btn-info pull-right">保存</button>
+    </div>
+  </div>
+</div>
+
+<!--<h5>动态添加表单</h5>-->
+<!--<div class="form">-->
+<!--  <div class="form-group form-group-sm" *ngFor="let i of login">-->
+<!--    <label class="col-form-label">用户名</label>-->
+<!--    <input class="form-control" [(ngModel)]="i.username" value="{{i.username}}">-->
+<!--    <label class="col-form-label">密码</label>-->
+<!--    <input class="form-control" [(ngModel)]="i.password" value="{{i.password}}">-->
+<!--    <nz-select style="width: 120px;" [(ngModel)]="i.selectedValue" nzAllowClear nzPlaceHolder="Choose">-->
+<!--      <nz-option nzValue="time1" nzLabel="time1"></nz-option>-->
+<!--      <nz-option nzValue="lucy" nzLabel="Lucy"></nz-option>-->
+<!--      <nz-option nzValue="disabled" nzLabel="Disabled" nzDisabled></nz-option>-->
+<!--    </nz-select>-->
+<!--    <button class="btn btn-link" (click)="removeInput(i)">删除</button>-->
+<!--  </div>-->
+<!--  <button (click)="addInput()">增加</button>-->
+<!--  {{ login | json }}-->
+<!--</div>-->

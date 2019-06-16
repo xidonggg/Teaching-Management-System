@@ -1,0 +1,59 @@
+<div appMyStyle="查看招生计划权限">
+<div class="box">
+  <div class="box-body">
+    <img src="assets/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+    {{plan.name}}招生计划详情
+    <button (click)="back()" type="submit" class="btn btn-default">返回</button>
+  </div>
+</div>
+<div class="box">
+  <div class="box-body">
+    <table class="table">
+      <tr>
+        <td><b>名称：</b>{{plan.name}}</td>
+        <td><b>关联班级：</b>{{plan.myclassesname}}</td>
+        <td><b>关联课程：</b>{{plan.coursesname}}</td>
+      </tr><tr>
+      <td><b>招生开始时间：</b>{{plan.startTime}}</td>
+      <td><b>招生结束时间：</b>{{plan.endTime}}</td>
+    </tr><tr>
+      <td><b>创建人：</b>{{plan.establishPerson}}</td>
+      <td><b>创建时间：</b>{{plan.establishTime}}</td>
+    </tr><tr>
+      <td><b>联系人：</b>{{plan.communicateStaffname}}</td>
+      <td><b>联系电话：</b>{{plan.communicateStaffPhone}}</td>
+    </tr><tr>
+      <td><b>描述：</b>{{plan.describe}}</td>
+    </tr>
+      <tr>
+        <td><b>计划人数：</b>{{plan.planNumber}}</td>
+        <td><b>已报名人数：</b>{{plan.enrolmentNumber}}</td>
+      </tr>
+    </table>
+    <div class="box-body">
+      <table class="table table-bordered table-hover">
+        <tr>
+          <th style="width: 10px">#</th>
+          <th>姓名</th>
+          <th>联系方式</th>
+          <th>来源</th>
+          <th>状态</th>
+          <th>报名时间</th>
+        </tr>
+        <tr *ngFor="let clue of clues; let i = index">
+          <td>{{i + 1}}</td>
+          <td><a (click)="cluedetail(clue)">{{clue.name}}</a></td>
+          <td>{{clue.phone}}</td>
+          <td>{{clue.source}}</td>
+          <td>{{clue.state}}</td>
+          <td>{{clue.registrationTime}}</td>
+          <!--              <td>-->
+          <!--                <a class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-pencil"  disabled="false"></span>修改</a>&nbsp;-->
+          <!--                <a class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove" ></span>删除</a>-->
+          <!--              </td>-->
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+</div>

@@ -1,0 +1,70 @@
+<!--
+
+<section class="content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="box">
+        <ul class="menu" data-widget="tree">
+          <li class="header">组织结构</li>
+          <div *ngFor="let organization of organizations; let i = index">
+            <li class="treeview">
+              <a><span>{{organization.name}}</span>
+                <span class="pull-right-container">
+                <i *ngIf="organization.child.length" class="fa fa-angle-left pull-right"></i>
+              </span>
+              </a>
+              <ul class="treeview-menu"  *ngFor="let item of organizations">
+                <li><a >{{item.name}}</a></li>
+              </ul>
+              <!--&nbsp;<a href="/studentManage"><span class="col-xs-pull-4">添加子部门</span></a>-->
+
+
+<!--</li>
+</div>
+
+
+<br>
+<li class="treeview">
+  <a><i class="fa fa-link"></i> <span>Multilevel</span>
+    <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+  </a>
+  <ul class="treeview-menu">
+    <li><a>Link in level 2</a></li>
+    <li><a>Link in level 2</a></li>
+  </ul>
+</li>
+<li class="treeview">
+  <a><i class="fa fa-link"></i> <span>Multilevel</span>
+    <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+  </a>
+  <ul class="treeview-menu">
+    <li><a>Link in level 2</a></li>
+    <li><a>Link in level 2</a></li>
+  </ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+-->
+
+<br>
+<section class="content">
+  <div class="box">
+    <div class="box-body">
+      <table class="table table-bordered">
+        <tr>
+          <th>组织结构</th>
+        </tr>
+        <tr>
+         <app-organization-tree *ngIf="organizations && organizations.length" [treelists]="organizations" (treeItem)="getClickOrganization($event)"></app-organization-tree>
+        </tr>
+      </table>
+    </div>
+    </div>
+</section>

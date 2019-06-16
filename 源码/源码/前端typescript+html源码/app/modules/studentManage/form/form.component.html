@@ -1,0 +1,117 @@
+<!-- Horizontal Form -->
+<div class="box box-info" appMyStyle="修改学生权限">
+  <div class="box-header with-border">
+    <h3 class="box-title">学生信息</h3>
+  </div>
+  <!-- /.box-header -->
+  <!-- form start -->
+  <div class="form-horizontal">
+  <div class="form-group">
+    <label class="col-sm-2 control-label">头像</label>
+    <div class="col-sm-8">
+      <nz-upload [(nzFileList)]="fileList" [nzBeforeUpload]="beforeUpload">
+        <button nz-button><i nz-icon nzType="upload"></i><span>上传图片</span></button>
+      </nz-upload>
+      <button
+        nz-button
+        [nzType]="'primary'"
+        [nzLoading]="uploading"
+        (click)="handleUpload()"
+        [disabled]="fileList.length == 0"
+        style="margin-top: 16px"
+      >
+        {{ uploading ? '正在上传' : '确认开始上传' }}
+      </button>
+    </div>
+  </div>
+  <form [formGroup]="formModel" >
+    <div class="box-body">
+      <div class="form-group" [class.has-error]="formModel.get('name').touched && (formModel.hasError('minlength','name') || formModel.hasError('required','name'))">
+        <label for="name" class="col-sm-2 control-label">名称</label>
+
+        <div class="col-sm-8">
+          <input formControlName="name" type="text" class="form-control" id="inputEmail3" placeholder="name">
+        </div>
+        <span class="help-block" [class.hidden]="!formModel.hasError('required','name') || formModel.get('name').untouched">
+          学生姓名必填项
+        </span>
+        <span class="help-block" [class.hidden]="!formModel.hasError('minlength','name') || formModel.get('name').untouched">
+          请输入至少一个字符
+        </span>
+      </div>
+      <div class="form-group" [class.has-error]="formModel.get('pinyin').touched && (formModel.hasError('minlength','pinyin') || formModel.hasError('required','pinyin'))">
+        <label for="pinyin" class="col-sm-2 control-label">拼音</label>
+
+        <div class="col-sm-8">
+          <input formControlName="pinyin" type="text" class="form-control" id="pinyin" placeholder="name">
+        </div>
+        <span class="help-block" [class.hidden]="!formModel.hasError('required','pinyin') || formModel.get('pinyin').untouched">
+          学生拼音必填项
+        </span>
+        <span class="help-block" [class.hidden]="!formModel.hasError('minlength','pinyin') || formModel.get('pinyin').untouched">
+          请输入至少一个字符
+        </span>
+      </div>
+      <div class="form-group" [class.has-error]="formModel.get('sex').touched && formModel.hasError('required','sex')">
+        <label for="sex" class="col-sm-2 control-label">性别</label>
+
+        <div class="col-sm-8">
+          <input formControlName="sex" type="text" class="form-control" id="inputPassword3" placeholder="sex">
+        </div>
+        <span class="help-block" [class.hidden]="!formModel.hasError('required','sex') || formModel.get('sex').untouched">
+          性别是必填项
+        </span>
+      </div>
+
+      <div class="form-group">
+        <label for="email" class="col-sm-2 control-label">电子邮箱</label>
+        <div class="col-sm-8">
+          <input formControlName="email" type="text" class="form-control" id="inputPassword1" placeholder="email">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="password" class="col-sm-2 control-label">密码</label>
+        <div class="col-sm-8">
+          <input formControlName="password" type="text" class="form-control" id="password" placeholder="password">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="idCard" class="col-sm-2 control-label">身份证号</label>
+        <div class="col-sm-8">
+          <input formControlName="idCard" type="text" class="form-control" id="idCard" placeholder="idCard">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="birthday" class="col-sm-2 control-label">出生日期</label>
+        <div class="col-sm-8">
+          <input formControlName="birthday" type="text" class="form-control" id="birthday" placeholder="birthday">
+        </div>
+      </div>
+
+      <div class="form-group" [class.has-error]="formModel.get('phone').touched && (formModel.hasError('mobile','phone'))">
+        <label for="phone" class="col-sm-2 control-label">手机号</label>
+        <div class="col-sm-8">
+          <input formControlName="phone" type="number" class="form-control" id="inputPassword4" placeholder="phone">
+        </div>
+        <span class="help-block" [class.hidden]="!formModel.hasError('mobile','phone') || formModel.get('phone').untouched">
+          {{formModel.getError('mobile','phone')?.description}}
+        </span>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">地址</label>
+        <div class="col-sm-10">
+          <textarea formControlName="address" class="form-control" rows="5">{{student.address}}</textarea>
+        </div>
+      </div>
+
+    </div>
+    <!-- /.box-body -->
+    <div class="box-footer">
+      <button (click)="cancel()" type="submit" class="btn btn-default">取消</button>
+      <button (click)="save()" [disabled]="formModel.invalid" type="submit" class="btn btn-info pull-right">保存</button>
+    </div>
+    <!-- /.box-footer -->
+  </form>
+  </div>
+</div>

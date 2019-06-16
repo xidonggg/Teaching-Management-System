@@ -1,0 +1,48 @@
+<div class="box" appMyStyle="查看课程权限">
+  <div class="box-body">
+    <img src="assets/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+    {{course.name}}
+    <button (click)="back()" type="submit" class="btn btn-default">返回</button>
+  </div>
+</div>
+<div class="box">
+  <div class="box-body">
+    <table class="table">
+      <tr>
+        <td><b>课程编号：</b>{{course.number}}</td>
+        <td><b>指导教师：</b>{{course.teachers}}</td>
+        <td><b>教室：</b>{{course.classrooms}}</td>
+      </tr><tr>
+        <td><b>创建人：</b>{{course.establishPerson}}</td>
+        <td><b>创建时间：</b>{{course.establishTime}}</td>
+      </tr><tr>
+        <td><b>描述：</b>{{course.describe}}</td>
+      </tr>
+      <tr>
+        <td><b>总课程数：</b>{{course.teachTimes}}</td>
+      </tr>
+    </table>
+    <table class="table">
+      <tr *ngFor="let arrange of courseArrange; let i = index">
+<!--        <td>-->
+<!--          时间：{{arrange.startTime}}-&#45;&#45;&#45;&#45;{{arrange.endTime}}-->
+<!--        </td>-->
+<!--        <td>-->
+<!--          时长：{{arrangeTime[i]}}分钟-->
+<!--        </td>-->
+        <td>
+          教师：{{arrange.teachers}}
+        </td>
+        <td>
+          教室：{{arrange.classroom}}
+        </td>
+        <td>
+        日期：{{arrange.date}}
+      </td>
+        <td>
+          时间段：{{arrange.timeSlot}}
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>

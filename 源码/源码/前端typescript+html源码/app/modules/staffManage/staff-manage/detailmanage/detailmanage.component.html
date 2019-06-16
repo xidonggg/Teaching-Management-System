@@ -1,0 +1,30 @@
+<div class="box" appMyStyle="查看教职工权限">
+<div class="box-body">
+  <img src="{{staff.picUrl}}" class="img-circle" style="width: 100px;height: 100px" alt="User Image">
+  {{staff.name}}
+  <button (click)="back()" type="submit" class="btn btn-default">返回</button>
+</div>
+
+<div class="box">
+  <div class="box-body">
+    <table class="table">
+      <tr>
+        <td><b>身份证号：</b>{{staff.idCard}}</td>
+        <td><b>手机号：</b>{{staff.phone}}</td>
+        <td><b>邮箱：</b>{{staff.email}}</td>
+        <td><b>性别：</b>{{staff.sex}}</td>
+      </tr>
+      <tr>
+        <td><b>地址：</b>{{staff.address}}</td>
+        <td><b>所属部门：</b>{{staff.departments}}</td>
+        <td><b>入职日期：</b>{{staff.hiredate}}</td>
+        <td><b>角色：</b>{{roles}}</td>
+      </tr>
+      <tr>
+        <td><b>密码：</b>{{staff.password}}</td>
+        <td><b>用户名：</b>{{staff.pinyin}}</td>
+      </tr>
+    </table>
+  </div>
+</div>
+</div>

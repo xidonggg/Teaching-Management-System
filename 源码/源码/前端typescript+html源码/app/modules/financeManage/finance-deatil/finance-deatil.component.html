@@ -1,0 +1,56 @@
+<div class="box" appMyStyle="查看缴费任务权限">
+  <div class="box-body">
+    <img src="assets/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+    {{task.name}}收费任务详情
+    <button (click)="back()" type="submit" class="btn btn-default">返回</button>
+  </div>
+</div>
+<div class="box">
+  <div class="box-body">
+    <table class="table">
+      <tr>
+        <td><b>名称：</b>{{task.name}}</td>
+        <td><b>收费项目：</b>{{task.chargeName}}</td>
+        <td><b>金额：</b>{{task.amount}}</td>
+      </tr><tr>
+      <td><b>生成时间：</b>{{task.createTime}}</td>
+      <td><b>任务预结束时间：</b>{{task.stopTime}}</td>
+      <td><b>备注：</b>{{task.remarks}}</td>
+    </tr><tr>
+      <td><b>创建人：</b>{{task.createPerson}}</td>
+      <td><b>状态：</b>{{task.state}}</td>
+      <td><b>状态改变时间：</b>{{task.stateChangeTime}}</td>
+    </tr><tr>
+      <td><b>已缴人数：</b>{{task.paidNumber}}</td>
+      <td><b>未缴人数：</b>{{task.unpaidNumber}}</td>
+    </tr><tr>
+<!--      <td><b>进度：</b><nz-progress [nzPercent]="task.paidNumber*100/(task.unpaidNumber+task.paidNumber)"></nz-progress></td>-->
+    </tr>
+    </table>
+    <div class="box-body">
+      <table class="table table-bordered table-hover">
+        <tr>
+          <th style="width: 10px">#</th>
+          <th>姓名</th>
+          <th>联系方式</th>
+          <th>状态</th>
+          <th>状态改变时间</th>
+        </tr>
+        <tr *ngFor="let order of task.financeOrders; let i = index">
+          <td>{{i + 1}}</td>
+          <td>{{order.accountName}}-{{order.accountPinyin}}</td>
+          <td>{{order.accountPhone}}</td>
+          <td appMyStyle="修改订单状态权限"> <nz-select style="width: 120px;" [(ngModel)]="selectedState[i]" nzAllowClear nzPlaceHolder="Choose" (ngModelChange)="statechange(order,selectedState[i])"
+                          [nzDisabled]="'停止'==task.state">
+            <nz-option nzValue="未缴" nzLabel="未缴" [nzDisabled]="order.state == '已缴' || order.state == '失效'"></nz-option>
+            <nz-option nzValue="已缴" nzLabel="已缴"[nzDisabled]="order.state == '失效'"></nz-option>
+            <nz-option nzValue="失效" nzLabel="失效" [nzDisabled]="order.state == '已缴'"></nz-option>
+          </nz-select></td>
+          <td appMyStyle="!修改订单状态权限">{{order.state}}</td>
+          <td>{{order.stateChangeTime}}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+

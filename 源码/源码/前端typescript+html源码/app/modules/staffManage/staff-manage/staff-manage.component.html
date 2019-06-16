@@ -1,0 +1,101 @@
+<div class="box box-primary" appMyStyle="查看教职工权限">
+
+  <div class="box-header">
+    <div class="box-body pad table-responsive">
+      <p>这里是全部教职工信息管理页面</p>
+      <button appMyStyle="修改教职工权限" type="button" class="btn btn-primary" (click)="create()"><span class="glyphicon glyphicon-plus"></span>新增</button>
+      <div class="input-group input-group-sm pull-right special" style="width: 200px; margin-top: 7px;">
+<!--        <input type="text" name="table_search" class="form-control pull-right" placeholder="姓名或ID" [ngModel]="nameOrId" (ngModelChange)="change($event)">-->
+<!--        <div class="input-group-btn">-->
+
+<!--        </div>-->
+        <input nz-input placeholder="姓名或ID" [(ngModel)]="nameOrId" style="width: 150px;">
+        <button type="submit" class="btn btn-default" (click)="searchByname()" style = "margin-bottom: 5px;"><i class="fa fa-search"></i></button>
+      </div>
+    </div>
+    <section class="content">
+      <div class="row">
+        <div class="col-md-2">
+          <div class="box">
+            <nz-tree [nzData]="nodes" nzShowIcon [nzExpandedIcon]="mutiExpandedIconTpl" (nzClick)="nzEvent($event)">
+              <ng-template #mutiExpandedIconTpl let-node>
+                <i
+                  *ngIf="!node.origin.isLeaf"
+                  nz-icon
+                  [type]="node.isExpanded ? 'folder-open' : 'folder'"
+                  class="ant-tree-switcher-line-icon"
+                ></i>
+                <i *ngIf="node.origin.isLeaf" nz-icon type="file" class="ant-tree-switcher-line-icon"></i>
+              </ng-template>
+            </nz-tree>
+          </div>
+        </div>
+        <div class="col-md-10">
+          <div class="box">
+            <div class="box-header with-border">
+              <h3 class="box-title">教职工信息管理</h3>
+            </div>
+            <nz-table #filterTable [nzData]="staffs">
+              <thead nzSingleSort>
+              <tr>
+                <th style="width: 10px" nzShowSort nzSortKey="age">#</th>
+                <th nzShowSort>姓名</th>
+                <th nzShowSort>性别</th>
+                <th nzShowSort>邮箱</th>
+                <th nzShowSort>状态</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let staff of filterTable.data; let i = index">
+                <td>{{i+1}}</td>
+                <td><a (click)="detail(staff)">{{staff.name}}</a></td>
+                <td>{{staff.sex}}</td>
+                <td>{{staff.email}}</td>
+                <td appMyStyle="修改教职工权限"> <nz-select style="width: 120px;" [(ngModel)]="selectedState[i]" nzAllowClear nzPlaceHolder="Choose" (ngModelChange)="statechange(staff,selectedState[i])"
+                                                     [nzDisabled]="'离职'==selectedState[i]">
+                  <nz-option nzValue="在职" nzLabel="在职"></nz-option>
+                  <nz-option nzValue="离职" nzLabel="离职"></nz-option>
+                </nz-select></td>
+                <td appMyStyle="!修改教职工权限">{{staff.state}}</td>
+              </tr>
+              </tbody>
+            </nz-table>
+            <!-- /.box-header -->
+<!--            <div class="box-body">-->
+<!--              <table class="table table-bordered table-hover">-->
+<!--                <tr>-->
+<!--                  <th style="width: 10px">#</th>-->
+<!--            <th>姓名</th>-->
+<!--            <th>性别</th>-->
+<!--            <th>出生日期</th>-->
+<!--            <th>email</th>-->
+<!--                </tr>-->
+<!--                <tr *ngFor="let staff of staffs; let i = index">-->
+<!--                  <td>{{i+1}}</td>-->
+<!--                  <td><a (click)="detail(staff)">{{staff.name}}</a></td>-->
+<!--                  <td>{{staff.sex}}</td>-->
+<!--                  <td>{{staff.email}}</td>-->
+<!--                  <td appMyStyle="修改教职工权限"> <nz-select style="width: 120px;" [(ngModel)]="selectedState[i]" nzAllowClear nzPlaceHolder="Choose" (ngModelChange)="statechange(staff,selectedState[i])"-->
+<!--                                  [nzDisabled]="'离职'==selectedState[i]">-->
+<!--                    <nz-option nzValue="在职" nzLabel="在职"></nz-option>-->
+<!--                    <nz-option nzValue="离职" nzLabel="离职"></nz-option>-->
+<!--                  </nz-select></td>-->
+<!--                  <td appMyStyle="!修改教职工权限">{{staff.state}}</td>-->
+<!--                  <td>{{staff.state}}</td>-->
+<!--                </tr>-->
+<!--              </table>-->
+<!--            </div>-->
+<!--            <div class="box-footer clearfix">-->
+<!--              <ul class="pagination pagination-sm no-margin pull-right">-->
+<!--                <li><a (click)="goLeft()">上一页</a></li>-->
+<!--                第{{page}}页-->
+<!--                <li><a (click)="goRight()">下一页</a></li>-->
+<!--              </ul>-->
+<!--            </div>-->
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  </div>

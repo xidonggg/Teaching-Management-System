@@ -1,0 +1,17 @@
+<ul class="ng-scope">
+  　　<li *ngFor="let item of treelists" class="ng-scope " data-widget="tree">
+  　　　　<a class="{{item.deep==0 ? 'lvl rootNode' : 'lvl'+item.deep}}">
+  <h5>
+  　　　　　　<span class="title">
+  　　　　　　　　<span class="title-text ng-binding" (click)="showItem(item)">{{item.name}}</span>
+　　　　　　</span>
+           <span class="pull-right-container">
+                <i *ngIf="(item.open == false) && (item.organization.length)" class="fa fa-angle-left" (click)="setOpen(item)"></i>
+                <i *ngIf="(item.open == true) && (item.organization.length)" class="fa fa-angle-down"(click)="setClose(item)"></i>
+           </span>
+  </h5>
+  　　　　</a>
+  　　　　<!--调用组件本身并 传值给下级: [treelists]="item.items"-->
+  　　　　<app-organization-tree *ngIf="item.open && item.organization && item.organization.length" [treelists]="item.organization"></app-organization-tree>
+  　　</li>
+</ul>

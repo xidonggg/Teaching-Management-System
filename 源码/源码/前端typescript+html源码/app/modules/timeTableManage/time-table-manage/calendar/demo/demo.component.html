@@ -1,0 +1,62 @@
+<div class="box">
+  <div class="box-body">
+    <div class="form-horizontal">
+      <div class="form-group">
+        <!--            班级选择，树形多选框-->
+        <label class="col-sm-2 control-label">班级选择</label>
+        <div class="col-sm-8">
+          <nz-tree-select
+            style="width: 250px"
+            nzPlaceHolder="Please select"
+            [nzMaxTagCount]="3"
+            [nzMaxTagPlaceholder]="omittedPlaceHolder"
+            [nzNodes]="nodes"
+            [nzDefaultExpandAll]="true"
+            [nzAllowClear]="false"
+            [(ngModel)]="value"
+            [nzMultiple]="false"
+            (ngModelChange)="onChange($event)"
+          >
+          </nz-tree-select>
+          <ng-template #omittedPlaceHolder let-omittedValues> and {{ omittedValues.length }} more...</ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="box">
+  <div class="box-body">
+
+    <app-demo-utils [(view)]="view" [(viewDate)]="viewDate">
+    </app-demo-utils>
+
+    <div [ngSwitch]="view">
+      <mwl-calendar-month-view
+        *ngSwitchCase="'month'"
+        [viewDate]="viewDate"
+        [(events)]="events"
+        [activeDayIsOpen]="true"
+        [refresh]="refresh"
+        (eventTimesChanged)="eventTimesChanged($event)"
+      >
+      </mwl-calendar-month-view>
+      <mwl-calendar-week-view
+        *ngSwitchCase="'week'"
+        [viewDate]="viewDate"
+        [(events)]="events"
+        [refresh]="refresh"
+        (eventTimesChanged)="eventTimesChanged($event)"
+      >
+      </mwl-calendar-week-view>
+      <mwl-calendar-day-view
+        *ngSwitchCase="'day'"
+        [viewDate]="viewDate"
+        [(events)]="events"
+        [refresh]="refresh"
+        (eventTimesChanged)="eventTimesChanged($event)"
+      >
+      </mwl-calendar-day-view>
+    </div>
+  </div>
+</div>

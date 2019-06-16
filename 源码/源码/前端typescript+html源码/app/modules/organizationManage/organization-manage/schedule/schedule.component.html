@@ -1,0 +1,48 @@
+
+<section class="content">
+  <div class="box">
+    <div class="box-body">
+      <table class="table table-bordered">
+        <tr>
+          <th>#</th>
+          <th>时间段</th>
+          <th>备注</th>
+        </tr>
+        <tr *ngFor="let schedule of schedules; let i = index">
+          <td>{{i+1}}</td>
+          <td>{{schedule.startTime}}-{{schedule.endTime}}</td>
+          <td>{{schedule.remark}}</td>
+          <td><button (click)="delete(schedule.id)" type="submit" class="btn btn-default pull-right btn-xs">删除</button></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</section>
+<div class="box">
+  <div class="box-body form-horizontal">
+    <div class="form-group">
+      <label class="col-sm-2 control-label">开始时间</label>
+      <div class="col-sm-3">
+        <nz-time-picker [(ngModel)]="startTime" (ngModelChange)="startTimelog($event)"></nz-time-picker>
+        <!--        <input class="col-sm-3 form-control" type="text" id="a"  placeholder="请选择时间">-->
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">结束时间</label>
+      <div class="col-sm-3">
+        <nz-time-picker [(ngModel)]="endTime" (ngModelChange)="endTimelog($event)"></nz-time-picker>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">开始时间</label>
+      <div class="col-sm-3">
+        <input nz-input placeholder="Basic usage" [(ngModel)]="value" />
+      </div>
+    </div>
+
+    <div class="box-footer">
+      <button (click)="save()" type="submit" class="btn btn-info pull-right">保存</button>
+    </div>
+  </div>
+</div>
+
